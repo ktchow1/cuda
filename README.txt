@@ -38,8 +38,26 @@ copy memory from CPU to/from GPU :
     
 invoke kernel :
 
-    kernel_name<<<1,N>>>(arg0, arg1, ...);
+    kernel_name<<<100,256>>>(arg0, arg1, ...); 
+
+    // run this kernel with :
+    // 1 grid of 100 blocks, 
+    // 1 block of 256 threads, 
+    // hence 25600 threads in total
 
 where arg0,1,... are either :
 * POD passed by value     <--- which involves copying from CPU to GPU
 * pointer to GPU variable <--- which requires cudaMemcpy before calling
+
+
+
+
+
+What are differences between SM, CUDA core, grid, block, thread?
+
+SM / CUDA core        = physical core
+grid / block / thread = logical thread
+
+grid   = collection of blocks for launching a kernel
+block  = collection of threads assigned to same SM
+thread = assigned to one CUDA core only, but one core can run multiple threads by time-multiplexing
